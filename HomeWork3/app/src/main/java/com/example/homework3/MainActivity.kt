@@ -27,6 +27,13 @@ class MainActivity : AppCompatActivity() {
         button.Visibel()
         var res: TextView = findViewById(R.id.textView)
         res.setText("$sortedList")
+        val result: TextView = findViewById(R.id.textView2)
+        GlobalScope.launch {
+            val res = getResult()
+            result.post {
+                result.text = res.toString()
+            }
+        }
     }
 
     val user1 = User(3, "Alex", 20)
@@ -36,6 +43,13 @@ class MainActivity : AppCompatActivity() {
     val user5 = User(56, "Oliver", 25)
     var userList: MutableList<User> = mutableListOf<User>(user1, user2, user3, user4, user5)
     var sortedList = ArrayList<User>(userList.sortedBy { it.id }.sortedBy { it.age })
+
+    suspend fun getResult() :Response{
+        val start = Date().toString()
+        Thread.sleep(3000)
+        val end = Date().toString()
+        return Response(start,end)
+    }
 
 
 }
